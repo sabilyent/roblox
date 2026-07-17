@@ -2162,7 +2162,7 @@ class Game {
         let moveX = 0, moveZ = 0;
 
         if (this.mobile.isMobile) {
-            moveX = this.mobile.moveX;
+            moveX = -this.mobile.moveX;
             moveZ = this.mobile.moveY;
         } else {
             if (this.keys['KeyW'] || this.keys['ArrowUp']) moveZ = 1;
