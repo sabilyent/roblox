@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pulau-kata-v1';
+const CACHE_NAME = 'pulau-kata-v2';
 const ASSETS = [
   './',
   './index.html',
