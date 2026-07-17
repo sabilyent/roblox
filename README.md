@@ -44,6 +44,7 @@ Setiap perkataan yang berjaya dieja akan menghadiahkan item-item pembinaan — d
 | `Tetikus` | Pandang sekeliling |
 | `E` | Interaksi / Kutip |
 | `B` | Mod Pembinaan (buka/tutup) |
+| `V` | Lihat Belakang (buka/tutup) |
 | `Tab` | Inventori |
 | `R` | Pusing item (dalam mod bina) |
 | `X` | Padam item (dalam mod bina) |
