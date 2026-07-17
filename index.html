@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="description" content="Pulau Kata — Permainan 3D penerokaan pulau dan teka-teki ejaan Bahasa Malaysia. Teroka, kutip huruf, eja perkataan, bina pulau!">
+    <meta name="theme-color" content="#023E8A">
+    <title>Pulau Kata — 3D Island Word Quest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+    <!-- ============ LOADING SCREEN ============ -->
+    <div id="loading-screen" class="overlay loading-screen">
+        <div class="loading-content">
+            <div class="loading-island">🏝️</div>
+            <h2>Memuatkan Pulau Kata...</h2>
+            <div class="loading-bar-track">
+                <div id="loading-bar" class="loading-bar"></div>
+            </div>
+            <p id="loading-text" class="loading-text">Menyediakan dunia 3D...</p>
+        </div>
+    </div>
+
+    <!-- ============ START SCREEN ============ -->
+    <div id="start-screen" class="overlay start-screen" style="display:none;">
+        <div class="start-particles" id="start-particles"></div>
+        <div class="start-content">
+            <div class="start-logo">
+                <div class="logo-island">🏝️</div>
+                <h1 class="game-title">PULAU KATA</h1>
+                <p class="game-subtitle">Teka-teki Ejaan 3D</p>
+            </div>
+            <div class="start-buttons">
+                <button id="btn-play" class="btn btn-primary btn-glow">
+                    <span>▶</span> MULA BERMAIN
+                </button>
+                <button id="btn-customize" class="btn btn-secondary">
+                    <span>👤</span> UBAH WATAK
+                </button>
+                <button id="btn-how-to" class="btn btn-secondary">
+                    <span>❓</span> CARA BERMAIN
+                </button>
+            </div>
+            <div class="start-footer">
+                <p>🎮 Desktop: WASD + Tetikus &nbsp;|&nbsp; 📱 Mobile: Pad Maya</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ HOW TO PLAY MODAL ============ -->
+    <div id="how-to-modal" class="overlay modal-overlay" style="display:none;">
+        <div class="modal glass-panel">
+            <button class="modal-close" onclick="document.getElementById('how-to-modal').style.display='none'">✕</button>
+            <h2>📖 Cara Bermain</h2>
+            <div class="how-to-grid">
+                <div class="how-to-step">
+                    <div class="step-icon">🏝️</div>
+                    <h3>1. Teroka</h3>
+                    <p>Jalan-jalan di pulau tropika 3D</p>
+                </div>
+                <div class="how-to-step">
+                    <div class="step-icon">🔤</div>
+                    <h3>2. Kutip Huruf</h3>
+                    <p>Dekati huruf bercahaya untuk kutip</p>
+                </div>
+                <div class="how-to-step">
+                    <div class="step-icon">💡</div>
+                    <h3>3. Eja Perkataan</h3>
+                    <p>Susun huruf mengikut petunjuk</p>
+                </div>
+                <div class="how-to-step">
+                    <div class="step-icon">🏗️</div>
+                    <h3>4. Bina Pulau</h3>
+                    <p>Guna ganjaran untuk hiasi pulau</p>
+                </div>
+            </div>
+            <div class="controls-info">
+                <h3>⌨️ Kawalan Desktop</h3>
+                <div class="key-grid">
+                    <div class="key-item"><kbd>W A S D</kbd> Bergerak</div>
+                    <div class="key-item"><kbd>SPACE</kbd> Lompat</div>
+                    <div class="key-item"><kbd>TETIKUS</kbd> Pandang</div>
+                    <div class="key-item"><kbd>B</kbd> Mod Bina</div>
+                    <div class="key-item"><kbd>TAB</kbd> Inventori</div>
+                    <div class="key-item"><kbd>R</kbd> Pusing Item</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ CHARACTER CUSTOMIZATION ============ -->
+    <div id="customize-modal" class="overlay modal-overlay" style="display:none;">
+        <div class="modal glass-panel customize-panel">
+            <button class="modal-close" id="close-customize">✕</button>
+            <h2>👤 Ubah Watak</h2>
+            <div class="customize-grid">
+                <!-- Color Customization -->
+                <div class="customize-section">
+                    <h3>🎨 Warna Kulit</h3>
+                    <div class="color-palette" id="skin-colors">
+                        <button class="color-swatch active" data-color="#f5d6b8" style="background:#f5d6b8"></button>
+                        <button class="color-swatch" data-color="#e0ac69" style="background:#e0ac69"></button>
+                        <button class="color-swatch" data-color="#c68642" style="background:#c68642"></button>
+                        <button class="color-swatch" data-color="#8d5524" style="background:#8d5524"></button>
+                        <button class="color-swatch" data-color="#6b3a1f" style="background:#6b3a1f"></button>
+                        <button class="color-swatch" data-color="#4a2511" style="background:#4a2511"></button>
+                    </div>
+                    <h3>💇 Warna Rambut</h3>
+                    <div class="color-palette" id="hair-colors">
+                        <button class="color-swatch active" data-color="#2c1b0e" style="background:#2c1b0e"></button>
+                        <button class="color-swatch" data-color="#4a3121" style="background:#4a3121"></button>
+                        <button class="color-swatch" data-color="#1a1a2e" style="background:#1a1a2e"></button>
+                        <button class="color-swatch" data-color="#c0392b" style="background:#c0392b"></button>
+                        <button class="color-swatch" data-color="#f39c12" style="background:#f39c12"></button>
+                        <button class="color-swatch" data-color="#ecf0f1" style="background:#ecf0f1"></button>
+                    </div>
+                    <h3>👕 Warna Baju</h3>
+                    <div class="color-palette" id="shirt-colors">
+                        <button class="color-swatch active" data-color="#4a90d9" style="background:#4a90d9"></button>
+                        <button class="color-swatch" data-color="#e74c3c" style="background:#e74c3c"></button>
+                        <button class="color-swatch" data-color="#2ecc71" style="background:#2ecc71"></button>
+                        <button class="color-swatch" data-color="#9b59b6" style="background:#9b59b6"></button>
+                        <button class="color-swatch" data-color="#f39c12" style="background:#f39c12"></button>
+                        <button class="color-swatch" data-color="#1abc9c" style="background:#1abc9c"></button>
+                        <button class="color-swatch" data-color="#ecf0f1" style="background:#ecf0f1"></button>
+                        <button class="color-swatch" data-color="#2c3e50" style="background:#2c3e50"></button>
+                    </div>
+                    <h3>👖 Warna Seluar</h3>
+                    <div class="color-palette" id="pants-colors">
+                        <button class="color-swatch active" data-color="#2d4a7a" style="background:#2d4a7a"></button>
+                        <button class="color-swatch" data-color="#34495e" style="background:#34495e"></button>
+                        <button class="color-swatch" data-color="#7f8c8d" style="background:#7f8c8d"></button>
+                        <button class="color-swatch" data-color="#8e6f47" style="background:#8e6f47"></button>
+                        <button class="color-swatch" data-color="#1a1a2e" style="background:#1a1a2e"></button>
+                        <button class="color-swatch" data-color="#2ecc71" style="background:#2ecc71"></button>
+                    </div>
+                </div>
+                <!-- Equipment Slots -->
+                <div class="customize-section">
+                    <h3>🎒 Peralatan</h3>
+                    <div class="equipment-slots">
+                        <div class="equip-slot" data-slot="hat">
+                            <div class="equip-slot-icon">🎩</div>
+                            <div class="equip-slot-label">Topi</div>
+                            <select id="equip-hat" class="equip-select">
+                                <option value="">Tiada</option>
+                                <option value="topi_pancing">Topi Pancing</option>
+                                <option value="songkok">Songkok</option>
+                                <option value="mahkota">Mahkota</option>
+                                <option value="topi_kait">Topi Kait</option>
+                            </select>
+                        </div>
+                        <div class="equip-slot" data-slot="face">
+                            <div class="equip-slot-icon">👓</div>
+                            <div class="equip-slot-label">Muka</div>
+                            <select id="equip-face" class="equip-select">
+                                <option value="">Tiada</option>
+                                <option value="cermin_mata">Cermin Mata</option>
+                                <option value="cermin_hitam">Cermin Mata Hitam</option>
+                            </select>
+                        </div>
+                        <div class="equip-slot" data-slot="back">
+                            <div class="equip-slot-icon">🎒</div>
+                            <div class="equip-slot-label">Belakang</div>
+                            <select id="equip-back" class="equip-select">
+                                <option value="">Tiada</option>
+                                <option value="beg_galas">Beg Galas</option>
+                                <option value="jubah">Jubah</option>
+                                <option value="sayap">Sayap</option>
+                            </select>
+                        </div>
+                        <div class="equip-slot" data-slot="rightHand">
+                            <div class="equip-slot-icon">⚔️</div>
+                            <div class="equip-slot-label">Tangan Kanan</div>
+                            <select id="equip-rightHand" class="equip-select">
+                                <option value="">Tiada</option>
+                                <option value="pedang">Pedang</option>
+                                <option value="kapak">Kapak</option>
+                                <option value="obor">Obor</option>
+                            </select>
+                        </div>
+                        <div class="equip-slot" data-slot="leftHand">
+                            <div class="equip-slot-icon">🛡️</div>
+                            <div class="equip-slot-label">Tangan Kiri</div>
+                            <select id="equip-leftHand" class="equip-select">
+                                <option value="">Tiada</option>
+                                <option value="perisai">Perisai</option>
+                                <option value="lentera">Lentera</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ GAME CANVAS CONTAINER ============ -->
+    <div id="game-container">
+        <canvas id="game-canvas"></canvas>
+    </div>
+
+    <!-- ============ GAME HUD ============ -->
+    <div id="game-hud" style="display:none;">
+        <!-- Top Bar: Clue + Score -->
+        <div class="hud-top">
+            <div class="hud-clue glass-panel" id="hud-clue">
+                <div class="clue-category" id="clue-category">🌍 Geografi</div>
+                <div class="clue-text" id="clue-text">Tanah yang dikelilingi air 🌊</div>
+                <div class="clue-progress" id="clue-progress">Perkataan 1 / 20</div>
+            </div>
+            <div class="hud-stats glass-panel">
+                <div class="stat-item">
+                    <span class="stat-icon">⭐</span>
+                    <span class="stat-value" id="stat-score">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">🔤</span>
+                    <span class="stat-value" id="stat-letters">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">🏗️</span>
+                    <span class="stat-value" id="stat-buildings">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Letter Slots (spelling area) -->
+        <div class="hud-bottom">
+            <div class="letter-area glass-panel" id="letter-area">
+                <div class="word-slots" id="word-slots">
+                    <!-- Dynamic: letter slots generated by JS -->
+                </div>
+                <div class="collected-letters" id="collected-letters">
+                    <!-- Dynamic: collected letters shown here -->
+                </div>
+                <div class="letter-hint">
+                    <button id="btn-hint" class="btn btn-small">💡 Pembayang</button>
+                    <button id="btn-clear" class="btn btn-small btn-danger">🗑️ Kosongkan</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mini buttons -->
+        <div class="hud-right">
+            <button id="hud-btn-build" class="hud-action-btn glass-panel" title="Mod Bina (B)">🔨</button>
+            <button id="hud-btn-inventory" class="hud-action-btn glass-panel" title="Inventori (Tab)">🎒</button>
+            <button id="hud-btn-customize" class="hud-action-btn glass-panel" title="Ubah Watak">👤</button>
+            <button id="hud-btn-settings" class="hud-action-btn glass-panel" title="Tetapan">⚙️</button>
+        </div>
+
+        <!-- Crosshair -->
+        <div class="crosshair" id="crosshair">+</div>
+
+        <!-- Interaction Prompt -->
+        <div class="interact-prompt glass-panel" id="interact-prompt" style="display:none;">
+            <span>Tekan <kbd>E</kbd> untuk kutip</span>
+        </div>
+    </div>
+
+    <!-- ============ BUILD MODE PANEL ============ -->
+    <div id="build-panel" class="build-panel glass-panel" style="display:none;">
+        <h3>🏗️ Mod Pembinaan</h3>
+        <div class="build-tabs">
+            <button class="build-tab active" data-cat="nature">🌴 Alam</button>
+            <button class="build-tab" data-cat="structure">🏠 Bangunan</button>
+            <button class="build-tab" data-cat="decoration">🎨 Hiasan</button>
+            <button class="build-tab" data-cat="special">⭐ Khas</button>
+        </div>
+        <div class="build-items" id="build-items">
+            <!-- Dynamic: filled by JS -->
+        </div>
+        <div class="build-controls">
+            <p><kbd>R</kbd> Pusing &nbsp; <kbd>X</kbd> Padam &nbsp; <kbd>B</kbd> Keluar</p>
+        </div>
+    </div>
+
+    <!-- ============ INVENTORY MODAL ============ -->
+    <div id="inventory-modal" class="overlay modal-overlay" style="display:none;">
+        <div class="modal glass-panel inventory-panel">
+            <button class="modal-close" id="close-inventory">✕</button>
+            <h2>🎒 Inventori</h2>
+            <div class="inventory-grid" id="inventory-grid">
+                <!-- Dynamic: filled by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ PUZZLE COMPLETE MODAL ============ -->
+    <div id="puzzle-complete" class="overlay modal-overlay" style="display:none;">
+        <div class="modal glass-panel puzzle-complete-panel">
+            <div class="celebration-emoji">🎉</div>
+            <h2 id="complete-title">Tahniah!</h2>
+            <p id="complete-word" class="complete-word"></p>
+            <div class="complete-stars" id="complete-stars">⭐⭐⭐</div>
+            <div class="complete-reward" id="complete-reward">
+                <p>Anda mendapat:</p>
+                <div class="reward-item" id="reward-item"></div>
+            </div>
+            <button id="btn-next-puzzle" class="btn btn-primary">Teruskan ▶</button>
+        </div>
+    </div>
+
+    <!-- ============ ROTATE PHONE MESSAGE ============ -->
+    <div id="rotate-message" class="overlay rotate-message" style="display:none;">
+        <div class="rotate-content">
+            <div class="rotate-icon">📱↪️</div>
+            <h2>Sila Pusingkan Telefon</h2>
+            <p>Permainan ini memerlukan mod landskap</p>
+        </div>
+    </div>
+
+    <!-- ============ MOBILE GAMEPAD (Roblox-style) ============ -->
+    <div id="mobile-controls" style="display:none;">
+        <!-- Virtual Joystick (Left) -->
+        <div class="joystick-zone" id="joystick-zone">
+            <div class="joystick-base" id="joystick-base">
+                <div class="joystick-thumb" id="joystick-thumb"></div>
+            </div>
+        </div>
+
+        <!-- Action Buttons (Right) -->
+        <div class="mobile-actions">
+            <button class="mobile-btn jump-btn" id="mobile-jump">
+                <svg viewBox="0 0 24 24" fill="white"><path d="M7 14l5-5 5 5z"/></svg>
+            </button>
+            <button class="mobile-btn interact-btn" id="mobile-interact">E</button>
+        </div>
+
+        <!-- Top Action Buttons -->
+        <div class="mobile-top-actions">
+            <button class="mobile-btn-small" id="mobile-build">🔨</button>
+            <button class="mobile-btn-small" id="mobile-inventory">🎒</button>
+            <button class="mobile-btn-small" id="mobile-settings">⚙️</button>
+        </div>
+
+        <!-- Camera Touch Zone (Right side of screen) -->
+        <div class="camera-zone" id="camera-zone"></div>
+    </div>
+
+    <!-- ============ NOTIFICATION TOAST ============ -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- ============ THREE.JS & GAME ============ -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.162.0/examples/jsm/"
+        }
+    }
+    </script>
+    <script type="module" src="game.js"></script>
+
+</body>
+</html>
